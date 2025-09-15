@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ToolHub — PDF Tools</title>
+  <link rel="icon" href="../../assets/icons/favicon.svg" type="image/svg+xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <meta name="description" content="Convert, merge, split, compress, protect and unlock PDFs." />
+  <style>
+    .tool-card{transition:all .2s ease;border:2px solid transparent}
+    .tool-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+    .tool-card.active{border-color:#1E88E5;background:linear-gradient(135deg,rgba(30,136,229,.05),rgba(67,160,71,.05))}
+    .drop{border:2px dashed #d1d5db;min-height:160px}
+    .drop.drag{border-color:#1E88E5;background:rgba(30,136,229,.06)}
+    .progress{height:6px;border-radius:3px;background:linear-gradient(90deg,#1E88E5,#43A047)}
+  </style>
+</head>
+<script src="../../assets/js/nav.js"></script>
+<script src="../../assets/js/footer.js"></script>
+<script src="../../assets/js/prefs.js"></script>
+<script src="../../assets/js/backtotop.js"></script>
+<script src="../../assets/js/copylink.js"></script>
+<script src="../../assets/js/drop-overlay.js"></script>
+<body class="bg-gray-100 h-screen overflow-hidden text-gray-900">
+  <!-- Global Top Nav -->
+  <nav class="bg-white border-b border-gray-200">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+      <a href="../../index.html" class="flex items-center gap-2">
+        <span class="inline-flex h-8 w-8 rounded-lg bg-gradient-to-tr from-blue-600 to-green-500"></span>
+        <span class="font-semibold">ToolHub</span>
+      </a>
+      <div class="flex items-center gap-5 text-sm">
+        <a href="../dashboard/dashboard.html" class="hover:text-green-600">Dashboard</a>
+        <a href="pdf-tools.html" class="hover:text-green-600 font-semibold text-green-700">PDF Tools</a>
+        <a href="../image/image-tools.html" class="hover:text-green-600">Image Tools</a>
+		<a href="../misc/about.html" class="hover:text-green-600">About</a>
+		<a href="../misc/contact.html" class="hover:text-green-600">Contact</a>
+        <a href="../settings/settings.html" class="hover:text-green-600">Settings</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex h-[calc(100vh-56px)]">
+    <!-- Sidebar -->
+    <aside class="w-80 bg-gradient-to-b from-gray-50 to-gray-100 border-r border-gray-200 p-4 space-y-3 overflow-y-auto">
+      <a href="../dashboard/dashboard.html" class="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293z"/></svg>
+        Back to Dashboard
+      </a>
+
+      <div class="mt-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">PDF Tools</div>
+
+      <button class="w-full tool-card active bg-white p-4 rounded-lg text-left" onclick="selectTool('convert')">
+        <div class="flex items-center gap-3">
+          <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
+            <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z"/></svg>
+          </span>
+          <div>
+            <div class="font-semibold">PDF Converter</div>
+            <div class="text-xs text-gray-600">PDF → JPG/PNG</div>
+          </div>
+        </div>
+      </button>
+
+      <button class="w-full tool-card bg-white p-4 rounded-lg text-left" onclick="selectTool('merge')">
+        <div class="flex items-center gap-3">
+          <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-green-100">
+            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path d="M8 2a1 1 0 000 2h2a1 1 0 100-2H8z"/><path d="M3 5a2 2 0 012-2h1a3 3 0 003 3h2a3 3 0 003-3h1a2 2 0 012 2v6h-4.586l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L16.414 13H21v3a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"/></svg>
+          </span>
+          <div>
+            <div class="font-semibold">Merge PDFs</div>
+            <div class="text-xs text-gray-600">Combine multiple files</div>
+          </div>
+        </div>
+      </button>
+
+      <button class="w-full tool-card bg-white p-4 rounded-lg text-left" onclick="selectTool('split')">
+        <div class="flex items-center gap-3">
+          <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-purple-100">
+            <svg class="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20"><path d="M8 2a1 1 0 000 2h2a1 1 0 100-2H8z"/><path d="M3 5a2 2 0 012-2h1a3 3 0 003 3h2a3 3 0 003-3h1a2 2 0 012 2v6h-4.586l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L16.414 13H21v3a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"/></svg>
+          </span>
+          <div>
+            <div class="font-semibold">Split PDF</div>
+            <div class="text-xs text-gray-600">Extract page ranges</div>
+          </div>
+        </div>
+      </button>
+
+      <button class="w-full tool-card bg-white p-4 rounded-lg text-left" onclick="selectTool('compress')">
+        <div class="flex items-center gap-3">
+          <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-yellow-100">
+            <svg class="w-5 h-5 text-yellow-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707z"/></svg>
+          </span>
+          <div>
+            <div class="font-semibold">Compress PDF</div>
+            <div class="text-xs text-gray-600">Reduce file size</div>
+          </div>
+        </div>
+      </button>
+
+      <button class="w-full tool-card bg-white p-4 rounded-lg text-left" onclick="selectTool('protect')">
+        <div class="flex items-center gap-3">
+          <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-100">
+            <svg class="w-5 h-5 text-indigo-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"/></svg>
+          </span>
+          <div>
+            <div class="font-semibold">Protect PDF</div>
+            <div class="text-xs text-gray-600">Add password</div>
+          </div>
+        </div>
+      </button>
+
+      <button class="w-full tool-card bg-white p-4 rounded-lg text-left" onclick="selectTool('unlock')">
+        <div class="flex items-center gap-3">
+          <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-orange-100">
+            <svg class="w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z"/></svg>
+          </span>
+          <div>
+            <div class="font-semibold">Unlock PDF</div>
+            <div class="text-xs text-gray-600">Remove password</div>
+          </div>
+        </div>
+      </button>
+    </aside>
+
+    <!-- Main content -->
+    <main class="flex-1 flex flex-col overflow-y-auto" data-scroll-root>
+      <!-- Header -->
+      <div class="bg-white border-b border-gray-200 p-6 flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold">PDF Toolkit</h1>
+          <p class="text-gray-600 text-sm">Convert, merge, split, compress, protect & unlock</p>
+        </div>
+        <div class="text-sm text-gray-500">
+          <span class="text-green-600 font-medium">✓ Secure</span> • Files deleted after processing (demo)
+        </div>
+      </div>
+
+      <!-- CONVERT -->
+      <section id="convertTool" class="p-6 space-y-6">
+        <div class="max-w-4xl mx-auto bg-white border rounded-xl p-6">
+          <h2 class="text-lg font-semibold mb-1">PDF → Image Converter</h2>
+          <p class="text-gray-600 text-sm mb-4">Export pages as JPG or PNG.</p>
+
+          <div id="drop-conv" class="drop rounded-xl p-6 text-center"
+               ondragover="dragOn(event,'drop-conv')" ondragleave="dragOff(event,'drop-conv')" ondrop="dragDrop(event,'conv-input')"
+               onclick="document.getElementById('conv-input').click()">
+            <svg class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg>
+            <div class="font-medium">Drop your PDF here</div>
+            <div class="text-xs text-gray-500">or click to browse</div>
+            <input id="conv-input" type="file" accept=".pdf" class="hidden" onchange="uiPicked(this)">
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-6 mt-6">
+            <div>
+              <label class="block text-sm font-medium mb-2">Output format</label>
+              <label class="flex items-center gap-2 text-sm"><input type="radio" name="fmt" value="jpg" checked> JPG (smaller)</label>
+              <label class="flex items-center gap-2 text-sm"><input type="radio" name="fmt" value="png"> PNG (better quality)</label>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Image quality</label>
+              <input id="q" type="range" min="50" max="100" value="85" class="w-full">
+              <div class="flex justify-between text-xs text-gray-500"><span>Lower</span><span id="qv">85%</span><span>Higher</span></div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Pages</label>
+              <label class="flex items-center gap-2 text-sm"><input type="radio" name="pg" value="all" checked> All</label>
+              <label class="flex items-center gap-2 text-sm"><input id="pgRangeRadio" type="radio" name="pg" value="range"> Range</label>
+              <input id="pgRange" type="text" placeholder="e.g., 1-5,8,10-12" class="mt-2 w-full px-3 py-2 border rounded-lg text-sm" disabled>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Resolution (DPI)</label>
+              <select class="w-full px-3 py-2 border rounded-lg">
+                <option value="150">150 (Web)</option>
+                <option value="300" selected>300 (Print)</option>
+                <option value="600">600 (High)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mt-6 flex items-center gap-3">
+            <button class="px-5 py-3 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700" onclick="fakeRun('Converting PDF to images...')">
+              Start Conversion
+            </button>
+            <div id="conv-status" class="text-sm text-gray-600"></div>
+          </div>
+
+          <div id="conv-prog" class="mt-4 hidden">
+            <div class="w-full bg-gray-200 rounded-full"><div class="progress w-0"></div></div>
+            <div class="text-xs text-gray-500 mt-1" id="conv-prog-text">Initializing…</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MERGE -->
+      <section id="mergeTool" class="p-6 space-y-6 hidden">
+        <div class="max-w-4xl mx-auto bg-white border rounded-xl p-6">
+          <h2 class="text-lg font-semibold mb-1">Merge PDFs</h2>
+          <p class="text-gray-600 text-sm mb-4">Combine multiple PDFs into one.</p>
+
+          <div id="drop-merge" class="drop rounded-xl p-6 text-center"
+               ondragover="dragOn(event,'drop-merge')" ondragleave="dragOff(event,'drop-merge')" ondrop="dragDrop(event,'merge-input')"
+               onclick="document.getElementById('merge-input').click()">
+            <div class="font-medium">Drop PDFs here (you can add many)</div>
+            <div class="text-xs text-gray-500">or click to browse</div>
+            <input id="merge-input" type="file" accept=".pdf" multiple class="hidden" onchange="uiPicked(this,true)">
+          </div>
+
+          <div class="mt-4 text-sm text-gray-600" id="merge-list"></div>
+
+          <div class="mt-6 flex items-center gap-3">
+            <button class="px-5 py-3 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700" onclick="fakeRun('Merging PDFs...')">Merge</button>
+            <div id="merge-status" class="text-sm text-gray-600"></div>
+          </div>
+
+          <div id="merge-prog" class="mt-4 hidden">
+            <div class="w-full bg-gray-200 rounded-full"><div class="progress w-0"></div></div>
+            <div class="text-xs text-gray-500 mt-1" id="merge-prog-text">Initializing…</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SPLIT -->
+      <section id="splitTool" class="p-6 space-y-6 hidden">
+        <div class="max-w-4xl mx-auto bg-white border rounded-xl p-6">
+          <h2 class="text-lg font-semibold mb-1">Split PDF</h2>
+          <p class="text-gray-600 text-sm mb-4">Extract specific pages or ranges.</p>
+
+          <div id="drop-split" class="drop rounded-xl p-6 text-center"
+               ondragover="dragOn(event,'drop-split')" ondragleave="dragOff(event,'drop-split')" ondrop="dragDrop(event,'split-input')"
+               onclick="document.getElementById('split-input').click()">
+            <div class="font-medium">Drop a PDF here</div>
+            <div class="text-xs text-gray-500">or click to browse</div>
+            <input id="split-input" type="file" accept=".pdf" class="hidden" onchange="uiPicked(this)">
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-6 mt-6">
+            <div>
+              <label class="block text-sm font-medium mb-2">Pages to extract</label>
+              <input id="split-range" type="text" placeholder="e.g., 1-3,6,9-12" class="w-full px-3 py-2 border rounded-lg text-sm">
+              <p class="text-xs text-gray-500 mt-1">Leave blank to split every page into a separate PDF.</p>
+            </div>
+          </div>
+
+          <div class="mt-6 flex items-center gap-3">
+            <button class="px-5 py-3 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700" onclick="fakeRun('Splitting PDF...')">Split</button>
+            <div id="split-status" class="text-sm text-gray-600"></div>
+          </div>
+
+          <div id="split-prog" class="mt-4 hidden">
+            <div class="w-full bg-gray-200 rounded-full"><div class="progress w-0"></div></div>
+            <div class="text-xs text-gray-500 mt-1" id="split-prog-text">Initializing…</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMPRESS -->
+      <section id="compressTool" class="p-6 space-y-6 hidden">
+        <div class="max-w-4xl mx-auto bg-white border rounded-xl p-6">
+          <h2 class="text-lg font-semibold mb-1">Compress PDF</h2>
+          <p class="text-gray-600 text-sm mb-4">Reduce file size while keeping quality.</p>
+
+          <div id="drop-comp" class="drop rounded-xl p-6 text-center"
+               ondragover="dragOn(event,'drop-comp')" ondragleave="dragOff(event,'drop-comp')" ondrop="dragDrop(event,'comp-input')"
+               onclick="document.getElementById('comp-input').click()">
+            <div class="font-medium">Drop a PDF here</div>
+            <div class="text-xs text-gray-500">or click to browse</div>
+            <input id="comp-input" type="file" accept=".pdf" class="hidden" onchange="uiPicked(this)">
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-6 mt-6">
+            <div>
+              <label class="block text-sm font-medium mb-2">Compression level</label>
+              <input id="cmp" type="range" min="1" max="3" value="2" class="w-full">
+              <div class="flex justify-between text-xs text-gray-500"><span>High quality</span><span id="cmpv">Balanced</span><span>Max shrink</span></div>
+            </div>
+          </div>
+
+          <div class="mt-6 flex items-center gap-3">
+            <button class="px-5 py-3 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700" onclick="fakeRun('Compressing PDF...')">Compress</button>
+            <div id="compress-status" class="text-sm text-gray-600"></div>
+          </div>
+
+          <div id="compress-prog" class="mt-4 hidden">
+            <div class="w-full bg-gray-200 rounded-full"><div class="progress w-0"></div></div>
+            <div class="text-xs text-gray-500 mt-1" id="compress-prog-text">Initializing…</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROTECT -->
+      <section id="protectTool" class="p-6 space-y-6 hidden">
+        <div class="max-w-4xl mx-auto bg-white border rounded-xl p-6">
+          <h2 class="text-lg font-semibold mb-1">Protect PDF (Add Password)</h2>
+          <p class="text-gray-600 text-sm mb-4">Encrypt your document with a password.</p>
+
+          <div id="drop-prot" class="drop rounded-xl p-6 text-center"
+               ondragover="dragOn(event,'drop-prot')" ondragleave="dragOff(event,'drop-prot')" ondrop="dragDrop(event,'prot-input')"
+               onclick="document.getElementById('prot-input').click()">
+            <div class="font-medium">Drop a PDF here</div>
+            <div class="text-xs text-gray-500">or click to browse</div>
+            <input id="prot-input" type="file" accept=".pdf" class="hidden" onchange="uiPicked(this)">
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-6 mt-6">
+            <div>
+              <label class="block text-sm font-medium mb-2">Password</label>
+              <input id="prot-pass" type="password" class="w-full px-3 py-2 border rounded-lg text-sm" placeholder="Enter password">
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Confirm</label>
+              <input id="prot-confirm" type="password" class="w-full px-3 py-2 border rounded-lg text-sm" placeholder="Re-enter password">
+            </div>
+          </div>
+
+          <div class="mt-6 flex items-center gap-3">
+            <button class="px-5 py-3 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700" onclick="fakeRun('Applying protection...')">Protect</button>
+            <div id="protect-status" class="text-sm text-gray-600"></div>
+          </div>
+
+          <div id="protect-prog" class="mt-4 hidden">
+            <div class="w-full bg-gray-200 rounded-full"><div class="progress w-0"></div></div>
+            <div class="text-xs text-gray-500 mt-1" id="protect-prog-text">Initializing…</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- UNLOCK -->
+      <section id="unlockTool" class="p-6 space-y-6 hidden">
+        <div class="max-w-4xl mx-auto bg-white border rounded-xl p-6">
+          <h2 class="text-lg font-semibold mb-1">Unlock PDF (Remove Password)</h2>
+          <p class="text-gray-600 text-sm mb-4">Remove password if you know it.</p>
+
+          <div id="drop-unl" class="drop rounded-xl p-6 text-center"
+               ondragover="dragOn(event,'drop-unl')" ondragleave="dragOff(event,'drop-unl')" ondrop="dragDrop(event,'unl-input')"
+               onclick="document.getElementById('unl-input').click()">
+            <div class="font-medium">Drop a protected PDF here</div>
+            <div class="text-xs text-gray-500">or click to browse</div>
+            <input id="unl-input" type="file" accept=".pdf" class="hidden" onchange="uiPicked(this)">
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-6 mt-6">
+            <div>
+              <label class="block text-sm font-medium mb-2">Current password</label>
+              <input id="unl-pass" type="password" class="w-full px-3 py-2 border rounded-lg text-sm" placeholder="Enter password">
+            </div>
+          </div>
+
+          <div class="mt-6 flex items-center gap-3">
+            <button class="px-5 py-3 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700" onclick="fakeRun('Unlocking PDF...')">Unlock</button>
+            <div id="unlock-status" class="text-sm text-gray-600"></div>
+          </div>
+
+          <div id="unlock-prog" class="mt-4 hidden">
+            <div class="w-full bg-gray-200 rounded-full"><div class="progress w-0"></div></div>
+            <div class="text-xs text-gray-500 mt-1" id="unlock-prog-text">Initializing…</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // --- sidebar select + hash router ---
+    const sections = ['convert','merge','split','compress','protect','unlock'];
+    function selectTool(tool){
+      // highlight card
+      document.querySelectorAll('.tool-card').forEach(el=>el.classList.remove('active'));
+      const btn = Array.from(document.querySelectorAll('.tool-card'))
+        .find(b => b.getAttribute('onclick')?.includes("'" + tool + "'"));
+      btn && btn.classList.add('active');
+
+      // show/hide sections
+      sections.forEach(s=>{
+        const el = document.getElementById(s+'Tool');
+        if(el){ s===tool ? el.classList.remove('hidden') : el.classList.add('hidden'); }
+      });
+
+      // update hash (keeps deep-linking)
+      if(location.hash.toLowerCase() !== '#'+tool){
+        history.replaceState(null,'','#'+tool);
+      }
+      // scroll to top of main
+      document.querySelector('main')?.scrollTo({top:0,behavior:'smooth'});
+    }
+    function applyHash(){
+      const hash = (location.hash||'').toLowerCase().replace('#','');
+      selectTool(sections.includes(hash)?hash:'convert');
+    }
+    window.addEventListener('hashchange', applyHash);
+    document.addEventListener('DOMContentLoaded', ()=>{
+      // UI bindings
+      const q = document.getElementById('q'), qv = document.getElementById('qv');
+      q && q.addEventListener('input',()=> qv.textContent = q.value + '%');
+      const pgR = document.getElementById('pgRange'), pgRRadio = document.getElementById('pgRangeRadio');
+      pgRRadio && pgRRadio.addEventListener('change',()=> pgR.disabled = !pgRRadio.checked);
+      // compress label
+      const cmp = document.getElementById('cmp'), cmpv = document.getElementById('cmpv');
+      cmp && cmp.addEventListener('input',()=>{
+        cmpv.textContent = {1:'High quality',2:'Balanced',3:'Max shrink'}[cmp.value] || 'Balanced';
+      });
+      applyHash();
+    });
+
+    // --- drag & drop helpers (UI only) ---
+    function dragOn(e,id){ e.preventDefault(); document.getElementById(id)?.classList.add('drag'); }
+    function dragOff(e,id){ e.preventDefault(); document.getElementById(id)?.classList.remove('drag'); }
+    function dragDrop(e,inputId){
+      e.preventDefault();
+      const input = document.getElementById(inputId);
+      if(!input) return;
+      input.files = e.dataTransfer.files;
+      input.dispatchEvent(new Event('change'));
+      document.querySelectorAll('.drop').forEach(d=>d.classList.remove('drag'));
+    }
+
+    // --- fake progress (placeholder until backend is wired) ---
+    function fakeRun(statusText){
+      // find the visible section
+      const sec = sections.find(s => !document.getElementById(s+'Tool').classList.contains('hidden'));
+      const progBox = document.getElementById(sec+'-prog');
+      const progBar = progBox?.querySelector('.progress');
+      const progTxt = document.getElementById(sec+'-prog-text');
+      const stat = document.getElementById(sec+'-status');
+      if(!progBox || !progBar || !progTxt) return;
+      stat && (stat.textContent = statusText);
+      progBox.classList.remove('hidden');
+      let w = 0;
+      progBar.style.width = '0%';
+      const t = setInterval(()=>{
+        w += Math.random()*18+6;
+        if(w>=100){ w = 100; clearInterval(t); progTxt.textContent = 'Done (demo)'; }
+        else { progTxt.textContent = 'Processing… '+Math.floor(w)+'%'; }
+        progBar.style.width = w+'%';
+      }, 300);
+    }
+
+    // show picked file names in Merge tool
+    function uiPicked(input, list=false){
+      if(list && input.id==='merge-input'){
+        const names = Array.from(input.files||[]).map(f=>f.name).join(', ');
+        document.getElementById('merge-list').textContent = names ? 'Files: '+names : '';
+      }
+    }
+  </script>
+</body>
+</html>

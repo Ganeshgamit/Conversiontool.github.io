@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ToolHub — UI Guide</title>
+  <link rel="icon" href="../../assets/icons/favicon.svg" type="image/svg+xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <meta name="description" content="Design system and responsive UI guide for ToolHub (components, spacing, colors, breakpoints).">
+  <style>
+    .chip{ @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs border; }
+    .swatch{ width: 72px; height: 48px; border-radius: .5rem; }
+    .demo-card{ transition: all .2s ease; }
+    .demo-card:hover{ transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,.08); }
+  </style>
+</head>
+<script src="../../assets/js/nav.js"></script>
+<script src="../../assets/js/footer.js"></script>
+<script src="../../assets/js/backtotop.js"></script>
+<body class="bg-gray-50 text-gray-900 min-h-screen">
+  <!-- Global Top Nav -->
+  <nav class="bg-white border-b border-gray-200">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+      <a href="../../index.html" class="flex items-center gap-2">
+        <span class="inline-flex h-8 w-8 rounded-lg bg-gradient-to-tr from-blue-600 to-green-500"></span>
+        <span class="font-semibold">ToolHub</span>
+      </a>
+      <div class="flex items-center gap-5 text-sm">
+        <a href="../dashboard/dashboard.html" class="hover:text-green-600">Dashboard</a>
+        <a href="../pdf/pdf-tools.html" class="hover:text-green-600">PDF Tools</a>
+        <a href="../image/image-tools.html" class="hover:text-green-600">Image Tools</a>
+		<a href="about.html" class="hover:text-green-600">About</a>
+		<a href="contact.html" class="hover:text-green-600">Contact</a>
+        <a href="../settings/settings.html" class="hover:text-green-600">Settings</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+    <header class="mb-8 flex items-center justify-between gap-4">
+      <div>
+        <h1 class="text-3xl font-extrabold tracking-tight">UI Guide & Design System</h1>
+        <p class="text-gray-600 mt-2">Use these tokens and components to keep ToolHub consistent and responsive.</p>
+      </div>
+      <a href="login.html" class="inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm hover:bg-white bg-gray-50">
+        Login (demo)
+      </a>
+    </header>
+
+    <!-- Tokens -->
+    <section class="grid lg:grid-cols-3 gap-6 mb-10">
+      <div class="bg-white border rounded-2xl p-6 demo-card">
+        <h2 class="text-lg font-semibold mb-4">Brand Colors</h2>
+        <div class="flex items-center gap-4">
+          <div>
+            <div class="swatch bg-gradient-to-tr from-blue-600 to-green-500"></div>
+            <div class="text-xs text-gray-600 mt-1">Primary gradient</div>
+          </div>
+          <div>
+            <div class="swatch bg-emerald-600"></div>
+            <div class="text-xs text-gray-600 mt-1">Action / Success</div>
+          </div>
+          <div>
+            <div class="swatch bg-gray-900"></div>
+            <div class="text-xs text-gray-600 mt-1">Text / Dark</div>
+          </div>
+        </div>
+        <p class="text-xs text-gray-500 mt-4">Use subtle tints (50–100) for backgrounds, strong (600–700) for icons and CTAs.</p>
+      </div>
+
+      <div class="bg-white border rounded-2xl p-6 demo-card">
+        <h2 class="text-lg font-semibold mb-4">Typography</h2>
+        <div class="space-y-1">
+          <div class="text-2xl font-bold">H1: 24–32px / bold</div>
+          <div class="text-xl font-semibold">H2: 20–24px / semibold</div>
+          <div class="text-base">Body: 14–16px / normal</div>
+          <div class="text-sm text-gray-600">Caption: 12–14px / gray-600</div>
+        </div>
+        <p class="text-xs text-gray-500 mt-4">Keep title case for headings; sentence case for body and buttons.</p>
+      </div>
+
+      <div class="bg-white border rounded-2xl p-6 demo-card">
+        <h2 class="text-lg font-semibold mb-4">Spacing Scale</h2>
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="chip">4</span>
+          <span class="chip">8</span>
+          <span class="chip">12</span>
+          <span class="chip">16</span>
+          <span class="chip">20</span>
+          <span class="chip">24</span>
+          <span class="chip">32</span>
+        </div>
+        <p class="text-xs text-gray-500 mt-4">Use 8px base rhythm (Tailwind: p-2, p-4, gap-4, etc.).</p>
+      </div>
+    </section>
+
+    <!-- Components -->
+    <section class="space-y-8">
+      <div>
+        <h3 class="text-xl font-bold mb-3">Buttons</h3>
+        <div class="flex flex-wrap items-center gap-3">
+          <button class="rounded-lg bg-emerald-600 text-white px-4 py-2 font-medium hover:bg-emerald-700">Primary</button>
+          <button class="rounded-lg bg-white border px-4 py-2 hover:bg-gray-50">Secondary</button>
+          <button class="rounded-lg bg-gray-900 text-white px-4 py-2 hover:bg-black">Dark</button>
+          <button class="rounded-lg bg-red-600 text-white px-4 py-2 hover:bg-red-700">Danger</button>
+          <button class="rounded-lg bg-white border px-3 py-1.5 text-sm">Small</button>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-xl font-bold mb-3">Form Inputs</h3>
+        <div class="grid md:grid-cols-3 gap-4">
+          <input class="w-full rounded-lg border px-3 py-2" placeholder="Text input" />
+          <select class="w-full rounded-lg border px-3 py-2">
+            <option>Option</option><option>Another</option>
+          </select>
+          <div class="flex items-center gap-2 border rounded-lg px-3 py-2">
+            <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm9-4H9v5h5v-2H11V6z"/></svg>
+            <input class="flex-1 outline-none" placeholder="With icon" />
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-xl font-bold mb-3">Cards & Lists</h3>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-white border rounded-xl p-6 demo-card">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-red-100">
+                <svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 012-2h4.6a2 2 0 011.4.6L15.4 5A2 2 0 0116 6.4V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg>
+              </span>
+              <div>
+                <div class="font-semibold">PDF Tools</div>
+                <div class="text-sm text-gray-600">Convert • Merge • Split</div>
+              </div>
+            </div>
+            <a href="../pdf/pdf-tools.html" class="text-sm text-emerald-700 font-medium">Open</a>
+          </div>
+
+          <div class="bg-white border rounded-xl p-6 demo-card">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
+                <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4z"/></svg>
+              </span>
+              <div>
+                <div class="font-semibold">Image Tools</div>
+                <div class="text-sm text-gray-600">Resize • Convert • Compress</div>
+              </div>
+            </div>
+            <a href="../image/image-tools.html" class="text-sm text-emerald-700 font-medium">Open</a>
+          </div>
+
+          <div class="bg-white border rounded-xl p-6 demo-card">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100">
+                <svg class="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 20 20"><path d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947z"/></svg>
+              </span>
+              <div>
+                <div class="font-semibold">Settings</div>
+                <div class="text-sm text-gray-600">Profile • Preferences • Billing</div>
+              </div>
+            </div>
+            <a href="../settings/settings.html" class="text-sm text-emerald-700 font-medium">Open</a>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-xl font-bold mb-3">Layout Grid</h3>
+        <div class="bg-white border rounded-xl p-6">
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            <div class="h-16 rounded-lg bg-emerald-50 border border-emerald-100"></div>
+            <div class="h-16 rounded-lg bg-emerald-50 border border-emerald-100"></div>
+            <div class="h-16 rounded-lg bg-emerald-50 border border-emerald-100"></div>
+            <div class="h-16 rounded-lg bg-emerald-50 border border-emerald-100"></div>
+            <div class="h-16 rounded-lg bg-emerald-50 border border-emerald-100"></div>
+            <div class="h-16 rounded-lg bg-emerald-50 border border-emerald-100"></div>
+          </div>
+          <p class="text-xs text-gray-500 mt-3">Use <code>max-w-7xl</code> container with responsive <code>grid-cols-*</code> to scale gracefully.</p>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-xl font-bold mb-3">Breakpoints</h3>
+        <div class="bg-white border rounded-xl p-6">
+          <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
+            <li class="p-3 rounded-lg bg-gray-50 border">sm ≥ 640px</li>
+            <li class="p-3 rounded-lg bg-gray-50 border">md ≥ 768px</li>
+            <li class="p-3 rounded-lg bg-gray-50 border">lg ≥ 1024px</li>
+            <li class="p-3 rounded-lg bg-gray-50 border">xl ≥ 1280px</li>
+            <li class="p-3 rounded-lg bg-gray-50 border">2xl ≥ 1536px</li>
+          </ul>
+          <p class="text-xs text-gray-500 mt-3">Design mobile-first; add classes like <code>sm:grid-cols-2</code>, <code>lg:grid-cols-3</code> progressively.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- shared nav highlighter -->
+  <script src="../../assets/js/nav.js"></script>
+</body>
+</html>

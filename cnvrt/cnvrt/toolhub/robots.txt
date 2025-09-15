@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /assets/
+Disallow: /lib/
+Disallow: /data/
+
+# When you deploy, update the full URL below (e.g., https://yourdomain.com/sitemap.xml)
+Sitemap: /sitemap.xml

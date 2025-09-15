@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ToolHub — Login</title>
+  <link rel="icon" href="../../assets/icons/favicon.svg" type="image/svg+xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <meta name="description" content="Sign in to ToolHub to access your dashboard, recent files, and settings.">
+  <style>
+    .floating{animation:float 6s ease-in-out infinite}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  </style>
+</head>
+<script src="../../assets/js/nav.js"></script>
+<script src="../../assets/js/footer.js"></script>
+<script src="../../assets/js/backtotop.js"></script>
+<body class="bg-gray-50 text-gray-900 min-h-screen">
+  <!-- Global Top Nav -->
+  <nav class="bg-white border-b border-gray-200">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+      <a href="../../index.html" class="flex items-center gap-2">
+        <span class="inline-flex h-8 w-8 rounded-lg bg-gradient-to-tr from-blue-600 to-green-500"></span>
+        <span class="font-semibold">ToolHub</span>
+      </a>
+      <div class="flex items-center gap-5 text-sm">
+        <a href="../dashboard/dashboard.html" class="hover:text-green-600">Dashboard</a>
+        <a href="../pdf/pdf-tools.html" class="hover:text-green-600">PDF Tools</a>
+        <a href="../image/image-tools.html" class="hover:text-green-600">Image Tools</a>
+		<a href="about.html" class="hover:text-green-600">About</a>
+		<a href="contact.html" class="hover:text-green-600">Contact</a>
+        <a href="../settings/settings.html" class="hover:text-green-600">Settings</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page -->
+  <main class="relative">
+    <!-- Soft gradient bg shapes -->
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+      <div class="floating absolute -top-10 -left-10 h-48 w-48 rounded-full bg-gradient-to-tr from-blue-200 to-emerald-200 opacity-40 blur-2xl"></div>
+      <div class="floating absolute bottom-0 right-0 h-56 w-56 rounded-3xl bg-gradient-to-tr from-emerald-200 to-blue-200 opacity-40 blur-2xl" style="animation-delay:.8s"></div>
+    </div>
+
+    <div class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-10 grid lg:grid-cols-2 gap-10 items-center">
+      <!-- Left: Branding -->
+      <section class="hidden lg:block">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-blue-600 to-green-500"></div>
+          <div class="text-xl font-bold">ToolHub</div>
+        </div>
+        <h1 class="text-3xl font-extrabold leading-tight">Convert smarter.<br/>Work faster.</h1>
+        <p class="mt-3 text-gray-600 max-w-md">
+          One place for PDFs, images, and more. Drag & drop, tweak, and download — done.
+        </p>
+
+        <ul class="mt-8 space-y-3 text-sm">
+          <li class="flex items-center gap-3">
+            <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-100">
+              <svg class="w-4 h-4 text-emerald-700" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-7.25 7.25a1 1 0 01-1.414 0l-3-3a1 1 0 011.414-1.414l2.293 2.293 6.543-6.543a1 1 0 011.414 0z"/></svg>
+            </span>
+            Unlimited edits with Pro (coming soon)
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100">
+              <svg class="w-4 h-4 text-blue-700" fill="currentColor" viewBox="0 0 20 20"><path d="M3 10a1 1 0 011-1h4V5a1 1 0 112 0v4h4a1 1 0 110 2h-4v4a1 1 0 11-2 0v-4H4a1 1 0 01-1-1z"/></svg>
+            </span>
+            50+ formats planned
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-purple-100">
+              <svg class="w-4 h-4 text-purple-700" fill="currentColor" viewBox="0 0 20 20"><path d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm3 2a2 2 0 104 0H8z"/></svg>
+            </span>
+            Files auto-delete after processing (demo)
+          </li>
+        </ul>
+      </section>
+
+      <!-- Right: Form -->
+      <section class="w-full">
+        <div class="mx-auto w-full max-w-md rounded-2xl border bg-white p-6 shadow-sm">
+          <h2 class="text-xl font-semibold">Welcome back</h2>
+          <p class="text-sm text-gray-600 mt-1">Sign in to continue to your dashboard.</p>
+
+          <form class="mt-6 space-y-4" onsubmit="event.preventDefault(); demoLogin();">
+            <div>
+              <label class="block text-sm mb-1">Email</label>
+              <input type="email" required class="w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="you@example.com">
+            </div>
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label class="block text-sm">Password</label>
+                <button type="button" class="text-xs text-emerald-700 hover:underline" onclick="togglePass()">Show</button>
+              </div>
+              <input id="pwd" type="password" required class="w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="••••••••">
+            </div>
+
+            <label class="flex items-center gap-2 text-sm">
+              <input type="checkbox" checked> Remember me on this device
+            </label>
+
+            <button type="submit" class="w-full rounded-lg bg-emerald-600 px-4 py-2 text-white font-medium hover:bg-emerald-700">
+              Sign in
+            </button>
+            <a href="../../index.html" class="block text-center text-sm text-gray-600 hover:text-gray-900">Back to Home</a>
+          </form>
+
+          <div class="mt-6 border-t pt-4 text-sm text-gray-600">
+            New here? <a href="#" class="text-emerald-700 hover:underline">Create an account</a> (demo)
+          </div>
+        </div>
+
+        <!-- Social (demo) -->
+        <div class="mx-auto w-full max-w-md mt-4 grid grid-cols-2 gap-3">
+          <button class="rounded-lg border bg-white px-4 py-2 hover:bg-gray-50 text-sm">Google</button>
+          <button class="rounded-lg border bg-white px-4 py-2 hover:bg-gray-50 text-sm">GitHub</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    function togglePass(){
+      const el = document.getElementById('pwd');
+      el.type = el.type === 'password' ? 'text' : 'password';
+    }
+    function demoLogin(){
+      // simple demo: just send to dashboard
+      location.href = '../dashboard/dashboard.html';
+    }
+  </script>
+
+  <!-- shared nav highlighter -->
+  <script src="../../assets/js/nav.js"></script>
+</body>
+</html>

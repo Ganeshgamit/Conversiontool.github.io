@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title> ToolHub — Page Not Found</title>
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/css/site.css">
+  <meta name="robots" content="noindex">
+</head>
+<script src="assets/js/nav.js"></script>
+<script src="assets/js/footer.js"></script>
+<script src="assets/js/backtotop.js"></script>
+<body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+  <!-- Global Top Nav -->
+  <nav class="bg-white border-b border-gray-200">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <span class="inline-flex h-8 w-8 rounded-lg bg-gradient-to-tr from-blue-600 to-green-500"></span>
+        <span class="font-semibold">ToolHub</span>
+      </a>
+      <div class="flex items-center gap-5 text-sm">
+        <a href="pages/dashboard/dashboard.html" class="hover:text-green-600">Dashboard</a>
+        <a href="pages/pdf/pdf-tools.html" class="hover:text-green-600">PDF Tools</a>
+        <a href="pages/image/image-tools.html" class="hover:text-green-600">Image Tools</a>
+		<a href="pages/misc/about.html" class="hover:text-green-600">About</a>
+		<a href="pages/misc/contact.html" class="hover:text-green-600">Contact</a>
+        <a href="pages/settings/settings.html" class="hover:text-green-600">Settings</a>
+        <a href="pages/misc/login.html" class="rounded-lg border px-3 py-1.5 hover:bg-gray-50">Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-1 flex items-center">
+    <section class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12 text-center">
+      <div class="mx-auto w-20 h-20 rounded-2xl bg-gradient-to-tr from-blue-600 to-green-500 text-white grid place-items-center">
+        <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM8 7h4a1 1 0 110 2H8a1 1 0 110-2zm0 4h4a1 1 0 010 2H8a1 1 0 010-2z"/></svg>
+      </div>
+      <h1 class="mt-6 text-3xl font-extrabold">404 — Page not found</h1>
+      <p class="mt-2 text-gray-600">The page you’re looking for doesn’t exist or has moved.</p>
+
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="index.html" class="rounded-lg bg-emerald-600 text-white px-4 py-2 font-medium hover:bg-emerald-700">Go to Home</a>
+        <a href="pages/pdf/pdf-tools.html" class="rounded-lg border px-4 py-2 hover:bg-white bg-gray-50">Open PDF Tools</a>
+        <a href="pages/image/image-tools.html" class="rounded-lg border px-4 py-2 hover:bg-white bg-gray-50">Open Image Tools</a>
+      </div>
+
+      <div class="mt-10 max-w-xl mx-auto">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Quick find (local)</label>
+        <div class="flex items-stretch rounded-lg border overflow-hidden">
+          <input id="q" class="flex-1 px-3 py-2 outline-none" placeholder="Try 'dashboard' or 'settings'">
+          <button onclick="findPage()" class="px-4 bg-gray-100 hover:bg-gray-200">Find</button>
+        </div>
+        <p id="hint" class="text-xs text-gray-500 mt-2">This tries a few common pages on your localhost.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t bg-white">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between text-sm text-gray-600">
+      <span>© <span id="y"></span> ToolHub</span>
+      <a class="hover:text-gray-900" href="pages/misc/ui-guide.html">UI Guide</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+    function findPage(){
+      const v = (document.getElementById('q').value||'').toLowerCase().trim();
+      const map = {
+        'home':'index.html','index':'index.html',
+        'dashboard':'pages/dashboard/dashboard.html',
+        'pdf':'pages/pdf/pdf-tools.html','pdf tools':'pages/pdf/pdf-tools.html',
+        'image':'pages/image/image-tools.html','image tools':'pages/image/image-tools.html',
+        'settings':'pages/settings/settings.html','login':'pages/misc/login.html','ui':'pages/misc/ui-guide.html'
+      };
+      const hit = map[v];
+      const hint = document.getElementById('hint');
+      if(hit){ location.href = hit; }
+      else { hint.textContent = "Try: dashboard, pdf, image, settings, login, ui"; }
+    }
+  </script>
+  <script src="assets/js/nav.js"></script>
+</body>
+</html>

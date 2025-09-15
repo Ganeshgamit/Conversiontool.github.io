@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ToolHub — Contact</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <link rel="icon" href="../../assets/icons/favicon.svg" type="image/svg+xml">
+  <meta name="description" content="Contact ToolHub — questions, feedback, or support." />
+</head>
+<script src="../../assets/js/nav.js"></script>
+<script src="../../assets/js/footer.js"></script>
+<script src="../../assets/js/backtotop.js"></script>
+<body class="bg-gray-50 text-gray-900 min-h-screen">
+  <!-- Global Top Nav -->
+  <nav class="bg-white border-b border-gray-200">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+      <a href="../../index.html" class="flex items-center gap-2">
+        <span class="inline-flex h-8 w-8 rounded-lg bg-gradient-to-tr from-blue-600 to-green-500"></span>
+        <span class="font-semibold">ToolHub</span>
+      </a>
+      <div class="flex items-center gap-5 text-sm">
+        <a href="../dashboard/dashboard.html" class="hover:text-green-600">Dashboard</a>
+        <a href="../pdf/pdf-tools.html" class="hover:text-green-600">PDF Tools</a>
+        <a href="../image/image-tools.html" class="hover:text-green-600">Image Tools</a>
+        <a href="about.html" class="hover:text-green-600">About</a>
+		<a href="contact.html" class="hover:text-green-600">Contact</a>
+        <a href="../settings/settings.html" class="hover:text-green-600">Settings</a>
+        <a href="login.html" class="rounded-lg border px-3 py-1.5 hover:bg-gray-50">Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+    <header class="mb-8">
+      <h1 class="text-3xl font-extrabold tracking-tight">Contact us</h1>
+      <p class="text-gray-600 mt-2 max-w-2xl">Have a question, feature request, or issue? Send us a note—this demo will show a confirmation.</p>
+    </header>
+
+    <section class="grid lg:grid-cols-3 gap-6">
+      <!-- Form -->
+      <div class="lg:col-span-2">
+        <form class="rounded-2xl border bg-white p-6 space-y-4" onsubmit="event.preventDefault(); submitContact();">
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm mb-1">Full name</label>
+              <input id="c-name" required class="w-full rounded-lg border px-3 py-2" placeholder="Your name">
+            </div>
+            <div>
+              <label class="block text-sm mb-1">Email</label>
+              <input id="c-email" type="email" required class="w-full rounded-lg border px-3 py-2" placeholder="you@example.com">
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm mb-1">Subject</label>
+            <input id="c-subj" required class="w-full rounded-lg border px-3 py-2" placeholder="How can we help?">
+          </div>
+          <div>
+            <label class="block text-sm mb-1">Message</label>
+            <textarea id="c-msg" rows="6" required class="w-full rounded-lg border px-3 py-2" placeholder="Write your message..."></textarea>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <label class="inline-flex items-center gap-2 text-sm">
+              <input id="c-consent" type="checkbox" required>
+              I agree to be contacted about my request.
+            </label>
+            <button class="rounded-lg bg-emerald-600 text-white px-4 py-2 font-medium hover:bg-emerald-700">Send message</button>
+          </div>
+
+          <div id="c-toast" class="hidden mt-3 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 text-sm">
+            ✅ Thanks! Your message was submitted (demo).
+          </div>
+        </form>
+      </div>
+
+      <!-- Info -->
+      <aside class="space-y-6">
+        <div class="rounded-2xl border bg-white p-6">
+          <h2 class="text-base font-semibold mb-2">Support</h2>
+          <div class="text-sm text-gray-700 space-y-1">
+            <p>Email: <a class="text-emerald-700 hover:underline" href="mailto:support@toolhub.local">support@toolhub.local</a></p>
+            <p>Docs: <a class="text-emerald-700 hover:underline" href="ui-guide.html">UI Guide</a></p>
+            <p>Status: All systems operational</p>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border bg-white p-6">
+          <h2 class="text-base font-semibold mb-2">Quick links</h2>
+          <div class="grid gap-2 text-sm">
+            <a href="../../index.html" class="rounded-lg border px-3 py-2 hover:bg-gray-50">Home</a>
+            <a href="../pdf/pdf-tools.html" class="rounded-lg border px-3 py-2 hover:bg-gray-50">PDF Tools</a>
+            <a href="../image/image-tools.html" class="rounded-lg border px-3 py-2 hover:bg-gray-50">Image Tools</a>
+            <a href="about.html" class="rounded-lg border px-3 py-2 hover:bg-gray-50">About</a>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border bg-white p-6">
+          <h2 class="text-base font-semibold mb-2">FAQ (short)</h2>
+          <details class="rounded-lg border p-3 text-sm">
+            <summary class="font-medium cursor-pointer">How fast do you reply?</summary>
+            <p class="mt-2 text-gray-700">This is a local demo — form shows a confirmation only.</p>
+          </details>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    function submitContact(){
+      // very basic demo validation (HTML5 'required' already covers most)
+      const name = document.getElementById('c-name').value.trim();
+      const email = document.getElementById('c-email').value.trim();
+      const msg = document.getElementById('c-msg').value.trim();
+      if(!name || !email || !msg) return;
+
+      const toast = document.getElementById('c-toast');
+      toast.classList.remove('hidden');
+
+      // clear fields (optional)
+      document.getElementById('c-subj').value = '';
+      document.getElementById('c-msg').value = '';
+      setTimeout(()=> toast.classList.add('hidden'), 2500);
+    }
+  </script>
+
+  <!-- shared nav highlighter -->
+  <script src="../../assets/js/nav.js"></script>
+</body>
+</html>

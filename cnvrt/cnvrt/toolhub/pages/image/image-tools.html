@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title> ToolHub — Image Tools</title>
+  <link rel="icon" href="../../assets/icons/favicon.svg" type="image/svg+xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <meta name="description" content="Resize, convert and compress images (JPG, PNG, WebP).">
+  <style>
+    .card{transition:all .2s ease;border:2px solid transparent}
+    .card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+    .drop{border:2px dashed #d1d5db;min-height:180px}
+    .drop.drag{border-color:#1E88E5;background:rgba(30,136,229,.06)}
+    .progress{height:6px;border-radius:3px;background:linear-gradient(90deg,#1E88E5,#43A047)}
+    .preview-box{aspect-ratio:1/1;background:#fafafa;border:1px dashed #e5e7eb}
+    .slider:focus{outline:none}
+  </style>
+</head>
+<script src="../../assets/js/nav.js"></script>
+<script src="../../assets/js/footer.js"></script>
+<script src="../../assets/js/prefs.js"></script>
+<script src="../../assets/js/backtotop.js"></script>
+<body class="bg-gray-100 min-h-screen text-gray-900">
+  <!-- Global Top Nav -->
+  <nav class="bg-white border-b border-gray-200">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+      <a href="../../index.html" class="flex items-center gap-2">
+        <span class="inline-flex h-8 w-8 rounded-lg bg-gradient-to-tr from-blue-600 to-green-500"></span>
+        <span class="font-semibold">ToolHub</span>
+      </a>
+      <div class="flex items-center gap-5 text-sm">
+        <a href="../dashboard/dashboard.html" class="hover:text-green-600">Dashboard</a>
+        <a href="../pdf/pdf-tools.html" class="hover:text-green-600">PDF Tools</a>
+        <a href="image-tools.html" class="hover:text-green-600 font-semibold text-green-700">Image Tools</a>
+		<a href="../misc/about.html" class="hover:text-green-600">About</a>
+		<a href="../misc/contact.html" class="hover:text-green-600">Contact</a>
+        <a href="../settings/settings.html" class="hover:text-green-600">Settings</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+    <header class="mb-6 flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold">Image Toolkit</h1>
+        <p class="text-gray-600 text-sm">Resize • Convert • Compress • (demo UI)</p>
+      </div>
+      <a href="../dashboard/dashboard.html" class="text-sm text-gray-600 hover:text-gray-900 inline-flex items-center gap-2">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293z"/>
+        </svg>
+        Back to Dashboard
+      </a>
+    </header>
+
+    <div class="grid lg:grid-cols-3 gap-6">
+      <!-- LEFT: Upload + Preview -->
+      <section class="lg:col-span-2 space-y-6">
+        <!-- Upload -->
+        <div class="bg-white border rounded-xl p-6 card">
+          <h2 class="text-lg font-semibold mb-1">Upload Image</h2>
+          <p class="text-gray-600 text-sm mb-4">JPG, PNG or WebP up to ~10 MB (demo).</p>
+
+          <div id="drop-img" class="drop rounded-xl p-6 text-center"
+               ondragover="dragOn(event,'drop-img')" ondragleave="dragOff(event,'drop-img')" ondrop="dropFiles(event)"
+               onclick="document.getElementById('img-input').click()">
+            <svg class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M3 4a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V4z"/>
+            </svg>
+            <div class="font-medium">Drop your image here</div>
+            <div class="text-xs text-gray-500">or click to browse</div>
+            <input id="img-input" type="file" accept="image/*" class="hidden" onchange="handleFile(this.files[0])">
+          </div>
+
+          <div id="file-meta" class="mt-4 hidden text-sm text-gray-600"></div>
+        </div>
+
+        <!-- Preview -->
+        <div class="bg-white border rounded-xl p-6 card">
+          <h3 class="text-base font-semibold mb-4">Preview</h3>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <div class="text-sm font-medium mb-2">Original</div>
+              <div class="preview-box rounded-lg flex items-center justify-center overflow-hidden">
+                <img id="preview-orig" alt="" class="max-h-full max-w-full hidden" />
+                <span id="preview-orig-ph" class="text-xs text-gray-400">No image yet</span>
+              </div>
+              <div id="orig-info" class="text-xs text-gray-500 mt-2"></div>
+            </div>
+            <div>
+              <div class="text-sm font-medium mb-2">Output (simulated)</div>
+              <div class="preview-box rounded-lg flex items-center justify-center overflow-hidden bg-white">
+                <img id="preview-out" alt="" class="max-h-full max-w-full hidden" />
+                <span id="preview-out-ph" class="text-xs text-gray-400">No image yet</span>
+              </div>
+              <div id="out-info" class="text-xs text-gray-500 mt-2"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: Controls -->
+      <aside class="space-y-6">
+        <!-- Resize -->
+        <div class="bg-white border rounded-xl p-6 card">
+          <h3 class="text-base font-semibold mb-1">Resize</h3>
+          <p class="text-xs text-gray-500 mb-4">Keep aspect ratio on to avoid distortion.</p>
+
+          <div class="space-y-3">
+            <label class="inline-flex items-center gap-2 text-sm">
+              <input id="lock" type="checkbox" checked>
+              Lock aspect ratio
+            </label>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-sm font-medium mb-1">Width (px)</label>
+                <input id="w" type="number" class="w-full px-3 py-2 border rounded-lg text-sm" placeholder="e.g., 1080">
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-1">Height (px)</label>
+                <input id="h" type="number" class="w-full px-3 py-2 border rounded-lg text-sm" placeholder="e.g., 1350">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-1">Scale (%)</label>
+              <input id="scale" type="range" min="10" max="200" value="100" class="slider w-full">
+              <div class="flex justify-between text-xs text-gray-500"><span>10%</span><span id="scalev">100%</span><span>200%</span></div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-1">Presets</label>
+              <div class="grid grid-cols-3 gap-2 text-xs">
+                <button class="px-2 py-1 border rounded hover:bg-gray-50" onclick="applyPreset(1080,1080)">Square 1080</button>
+                <button class="px-2 py-1 border rounded hover:bg-gray-50" onclick="applyPreset(1080,1350)">IG 4:5</button>
+                <button class="px-2 py-1 border rounded hover:bg-gray-50" onclick="applyPreset(1920,1080)">HD 16:9</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Format / Quality -->
+        <div class="bg-white border rounded-xl p-6 card">
+          <h3 class="text-base font-semibold mb-1">Format & Quality</h3>
+          <p class="text-xs text-gray-500 mb-4">JPG smaller, PNG lossless, WebP modern.</p>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-sm font-medium mb-1">Output</label>
+              <select id="fmt" class="w-full px-3 py-2 border rounded-lg text-sm">
+                <option value="jpg" selected>JPG</option>
+                <option value="png">PNG</option>
+                <option value="webp">WebP</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1">Quality</label>
+              <input id="q" type="range" min="50" max="100" value="85" class="slider w-full">
+              <div class="flex justify-between text-xs text-gray-500"><span>50</span><span id="qv">85%</span><span>100</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compress -->
+        <div class="bg-white border rounded-xl p-6 card">
+          <h3 class="text-base font-semibold mb-1">Compression</h3>
+          <p class="text-xs text-gray-500 mb-4">Reduce size while keeping clarity.</p>
+          <input id="cmp" type="range" min="1" max="3" value="2" class="slider w-full">
+          <div class="flex justify-between text-xs text-gray-500"><span>High quality</span><span id="cmpv">Balanced</span><span>Max shrink</span></div>
+        </div>
+
+        <!-- Actions -->
+        <div class="bg-white border rounded-xl p-6 card">
+          <h3 class="text-base font-semibold mb-3">Actions</h3>
+          <div class="flex items-center gap-3">
+            <button class="px-4 py-2 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700" onclick="simulate()">
+              Apply & Download (demo)
+            </button>
+            <button class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200" onclick="resetUI()">Reset</button>
+          </div>
+
+          <div id="prog" class="mt-4 hidden">
+            <div class="w-full bg-gray-200 rounded-full"><div class="progress w-0"></div></div>
+            <div class="text-xs text-gray-500 mt-1" id="prog-t">Preparing…</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    // ------- state -------
+    let img = new Image();
+    let origW = 0, origH = 0, ratio = 1;
+
+    // ------- helpers -------
+    function byId(id){ return document.getElementById(id); }
+    function dragOn(e,id){ e.preventDefault(); byId(id)?.classList.add('drag'); }
+    function dragOff(e,id){ e.preventDefault(); byId(id)?.classList.remove('drag'); }
+    function dropFiles(e){
+      e.preventDefault();
+      const f = e.dataTransfer.files?.[0];
+      if(f) handleFile(f);
+      byId('drop-img')?.classList.remove('drag');
+    }
+
+    function handleFile(file){
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev)=>{
+        img = new Image();
+        img.onload = ()=>{
+          origW = img.naturalWidth; origH = img.naturalHeight; ratio = origW / origH;
+          // show originals
+          byId('preview-orig').src = ev.target.result;
+          byId('preview-orig').classList.remove('hidden');
+          byId('preview-orig-ph').classList.add('hidden');
+          byId('preview-out').src = ev.target.result;
+          byId('preview-out').classList.remove('hidden');
+          byId('preview-out-ph').classList.add('hidden');
+
+          byId('w').value = origW;
+          byId('h').value = origH;
+          byId('scale').value = 100;
+          byId('scalev').textContent = '100%';
+          byId('file-meta').classList.remove('hidden');
+          byId('file-meta').textContent = `${file.name} • ${(file.size/1024).toFixed(1)} KB`;
+          byId('orig-info').textContent = `Original: ${origW} × ${origH}px`;
+          byId('out-info').textContent = `Output (simulated): ${origW} × ${origH}px • ${byId('fmt').value.toUpperCase()} @ ${byId('q').value}%`;
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function applyPreset(w,h){
+      byId('w').value = w;
+      byId('h').value = h;
+      const sc = Math.round((w/origW) * 100);
+      if(!isNaN(sc)){ byId('scale').value = sc; byId('scalev').textContent = sc + '%'; }
+      updateOutInfo();
+    }
+
+    function resetUI(){
+      ['preview-orig','preview-out'].forEach(id=>{
+        byId(id).classList.add('hidden'); byId(id).src='';
+      });
+      ['preview-orig-ph','preview-out-ph'].forEach(id=>byId(id).classList.remove('hidden'));
+      ['file-meta','orig-info','out-info'].forEach(id=>{byId(id).textContent='';});
+      origW=origH=0; ratio=1;
+      byId('w').value=''; byId('h').value=''; byId('scale').value=100; byId('scalev').textContent='100%';
+      byId('q').value=85; byId('qv').textContent='85%';
+      byId('fmt').value='jpg'; byId('cmp').value=2; byId('cmpv').textContent='Balanced';
+      byId('prog').classList.add('hidden');
+    }
+
+    function updateOutInfo(){
+      const w = Number(byId('w').value||0), h = Number(byId('h').value||0);
+      const fmt = byId('fmt').value.toUpperCase();
+      const q = byId('q').value + '%';
+      if(w && h){
+        byId('out-info').textContent = `Output (simulated): ${w} × ${h}px • ${fmt} @ ${q}`;
+      }
+    }
+
+    function simulate(){
+      if(!origW){ alert('Please upload an image first.'); return; }
+      const progBox = byId('prog');
+      const bar = progBox.querySelector('.progress');
+      const txt = byId('prog-t');
+      progBox.classList.remove('hidden');
+      let w = 0;
+      bar.style.width = '0%';
+      const t = setInterval(()=>{
+        w += Math.random()*18+6;
+        if(w>=100){ w=100; clearInterval(t); txt.textContent='Done (demo) — file would download now'; }
+        else { txt.textContent = 'Processing… ' + Math.floor(w) + '%'; }
+        bar.style.width = w + '%';
+      },300);
+    }
+
+    // ------- events -------
+    document.addEventListener('DOMContentLoaded', ()=>{
+      // sliders
+      byId('q').addEventListener('input', e=>{
+        byId('qv').textContent = e.target.value + '%'; updateOutInfo();
+      });
+      byId('cmp').addEventListener('input', e=>{
+        byId('cmpv').textContent = ({1:'High quality',2:'Balanced',3:'Max shrink'})[e.target.value] || 'Balanced';
+      });
+      byId('scale').addEventListener('input', e=>{
+        const pct = Number(e.target.value);
+        byId('scalev').textContent = pct + '%';
+        if(origW && origH){
+          const newW = Math.round(origW * pct/100);
+          const newH = byId('lock').checked ? Math.round(newW / ratio) : Math.round(origH * pct/100);
+          byId('w').value = newW; byId('h').value = newH; updateOutInfo();
+        }
+      });
+
+      // width/height manual edit
+      byId('w').addEventListener('input', ()=>{
+        const w = Number(byId('w').value||0);
+        if(byId('lock').checked && ratio && w){ byId('h').value = Math.round(w/ratio); }
+        updateOutInfo();
+      });
+      byId('h').addEventListener('input', ()=>{
+        const h = Number(byId('h').value||0);
+        if(byId('lock').checked && ratio && h){ byId('w').value = Math.round(h*ratio); }
+        updateOutInfo();
+      });
+
+      // format change
+      byId('fmt').addEventListener('change', updateOutInfo);
+    });
+  </script>
+</body>
+</html>

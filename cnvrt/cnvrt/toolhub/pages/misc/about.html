@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ToolHub — About</title>
+  <link rel="icon" href="../../assets/icons/favicon.svg" type="image/svg+xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <meta name="description" content="Learn about ToolHub — the free, fast and secure online toolkit for PDFs and images.">
+</head>
+<script src="../../assets/js/nav.js"></script>
+<script src="../../assets/js/footer.js"></script>
+<script src="../../assets/js/backtotop.js"></script>
+<body class="bg-gray-50 text-gray-900 min-h-screen">
+  <!-- Global Top Nav -->
+  <nav class="bg-white border-b border-gray-200">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+      <a href="../../index.html" class="flex items-center gap-2">
+        <span class="inline-flex h-8 w-8 rounded-lg bg-gradient-to-tr from-blue-600 to-green-500"></span>
+        <span class="font-semibold">ToolHub</span>
+      </a>
+      <div class="flex items-center gap-5 text-sm">
+        <a href="../dashboard/dashboard.html" class="hover:text-green-600">Dashboard</a>
+        <a href="../pdf/pdf-tools.html" class="hover:text-green-600">PDF Tools</a>
+        <a href="../image/image-tools.html" class="hover:text-green-600">Image Tools</a>
+		<a href="about.html" class="hover:text-green-600">About</a>
+		<a href="contact.html" class="hover:text-green-600">Contact</a>
+        <a href="../settings/settings.html" class="hover:text-green-600">Settings</a>
+        <a href="login.html" class="rounded-lg border px-3 py-1.5 hover:bg-gray-50">Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+    <header class="mb-8">
+      <h1 class="text-3xl font-extrabold tracking-tight">About ToolHub</h1>
+      <p class="text-gray-600 mt-2 max-w-2xl">
+        ToolHub is a simple, fast, and secure toolkit for everyday file tasks — starting with PDFs and images.
+      </p>
+    </header>
+
+    <section class="grid lg:grid-cols-3 gap-6">
+      <div class="lg:col-span-2 space-y-6">
+        <article class="rounded-2xl border bg-white p-6">
+          <h2 class="text-lg font-semibold mb-2">What is ToolHub?</h2>
+          <p class="text-gray-700">
+            A lightweight, browser-first set of tools for converting, merging, splitting, compressing PDFs, and resizing or converting images.
+            No installs. Works on your localhost now; ready for hosting later.
+          </p>
+          <ul class="mt-4 grid sm:grid-cols-2 gap-3 text-sm">
+            <li class="p-3 rounded-lg bg-emerald-50 border border-emerald-200">PDF → JPG/PNG</li>
+            <li class="p-3 rounded-lg bg-emerald-50 border border-emerald-200">Merge / Split / Compress PDF</li>
+            <li class="p-3 rounded-lg bg-blue-50 border border-blue-200">Resize images (px / % / presets)</li>
+            <li class="p-3 rounded-lg bg-blue-50 border border-blue-200">Convert JPG / PNG / WebP</li>
+          </ul>
+        </article>
+
+        <article class="rounded-2xl border bg-white p-6">
+          <h2 class="text-lg font-semibold mb-2">Security & Privacy</h2>
+          <p class="text-gray-700">
+            This demo keeps processing client-side where possible and simulates progress for actions that need a backend.
+            In production, ensure files are encrypted in transit and auto-deleted after processing.
+          </p>
+          <ul class="list-disc pl-5 text-sm text-gray-700 mt-3">
+            <li>HTTPS everywhere</li>
+            <li>Temporary object storage with TTL (e.g., 1 hour)</li>
+            <li>Strict CORS + signed download URLs</li>
+          </ul>
+        </article>
+
+        <article class="rounded-2xl border bg-white p-6">
+          <h2 class="text-lg font-semibold mb-2">Roadmap (short)</h2>
+          <ol class="list-decimal pl-5 text-sm text-gray-700 space-y-1">
+            <li>Wire real converters (serverless API or worker)</li>
+            <li>User accounts, quotas, and billing</li>
+            <li>Cloud storage integrations (Drive/Dropbox/OneDrive)</li>
+            <li>Video/Audio basic tools</li>
+          </ol>
+        </article>
+
+        <article class="rounded-2xl border bg-white p-6">
+          <h2 class="text-lg font-semibold mb-2">FAQ</h2>
+          <div class="space-y-3 text-sm text-gray-700">
+            <details class="rounded-lg border p-3">
+              <summary class="font-medium cursor-pointer">Is this free?</summary>
+              <p class="mt-2">Yes, the demo is free. Production can offer a free tier + optional Pro plan.</p>
+            </details>
+            <details class="rounded-lg border p-3">
+              <summary class="font-medium cursor-pointer">Does it upload my files?</summary>
+              <p class="mt-2">The current demo simulates processing locally. A real backend should auto-delete files after processing.</p>
+            </details>
+            <details class="rounded-lg border p-3">
+              <summary class="font-medium cursor-pointer">Which formats are supported?</summary>
+              <p class="mt-2">PDF, JPG, PNG, WebP now (demo UI). More can be added with a backend.</p>
+            </details>
+          </div>
+        </article>
+      </div>
+
+      <aside class="space-y-6">
+        <div class="rounded-2xl border bg-white p-6">
+          <h3 class="text-base font-semibold mb-2">Quick Links</h3>
+          <div class="grid gap-2 text-sm">
+            <a href="../../index.html" class="rounded-lg border px-3 py-2 hover:bg-gray-50">Home</a>
+            <a href="../pdf/pdf-tools.html" class="rounded-lg border px-3 py-2 hover:bg-gray-50">PDF Tools</a>
+            <a href="../image/image-tools.html" class="rounded-lg border px-3 py-2 hover:bg-gray-50">Image Tools</a>
+            <a href="ui-guide.html" class="rounded-lg border px-3 py-2 hover:bg-gray-50">UI Guide</a>
+            <a href="login.html" class="rounded-lg border px-3 py-2 hover:bg-gray-50">Login</a>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border bg-white p-6">
+          <h3 class="text-base font-semibold mb-2">Contact (demo)</h3>
+          <p class="text-sm text-gray-700">Questions or ideas? Send feedback:</p>
+          <form class="mt-3 space-y-3" onsubmit="event.preventDefault(); alert('Thanks for the feedback (demo)!');">
+            <input class="w-full rounded-lg border px-3 py-2 text-sm" placeholder="Your email">
+            <textarea rows="3" class="w-full rounded-lg border px-3 py-2 text-sm" placeholder="Your message"></textarea>
+            <button class="w-full rounded-lg bg-emerald-600 text-white px-4 py-2 font-medium hover:bg-emerald-700">Send</button>
+          </form>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <!-- shared nav highlighter -->
+  <script src="../../assets/js/nav.js"></script>
+</body>
+</html>
